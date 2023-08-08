@@ -6,7 +6,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 
-const theme = {
+const t: Config = {
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',
         './components/**/*.{js,ts,jsx,tsx}',
@@ -18,25 +18,21 @@ const theme = {
     theme: {
         extend: {
             fontFamily: {
-                logo: ['var(--font-logo)', ...defaultTheme.fontFamily.sans],
+                sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
                 body: ['var(--font-body)', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: colors.neutral[950], //'#FE2E5A'
-                secondary: '#a6ff00',
-                neutral: colors.neutral,
+                primary: colors.emerald,
+                secondary: colors.red,
+                grey: colors.neutral,
                 light: colors.neutral[50],
-                grey: colors.neutral[400],
                 dark: colors.neutral[950],
-                what: colors.red,
-                who: colors.blue,
-                where: colors.emerald,
             },
         },
     },
     plugins: [forms, typography],
 } satisfies Config;
 
-export default theme;
+export default t;
 
-export const themeColors = theme.theme.extend.colors;
+export const themeColors = t.theme?.extend?.colors!;
