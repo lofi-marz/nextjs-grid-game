@@ -15,7 +15,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="flex h-screen w-full items-center justify-center bg-dark text-light">
-                <div className="flex h-96 w-96 items-center justify-center p-6">
+                <div className="flex aspect-square h-[100vh] w-[100vh] items-center justify-center p-6">
                     <Grid />
                 </div>
             </div>

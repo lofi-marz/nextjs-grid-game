@@ -12,7 +12,6 @@ const t: Config = {
         './components/**/*.{js,ts,jsx,tsx}',
         './app/**/*.{js,ts,jsx,tsx}',
         './src/**/*.{js,ts,jsx,tsx}',
-        '../../packages/ui/**/*.{js,ts,jsx,tsx}', // Add the ui package
     ],
     darkMode: 'class',
     theme: {

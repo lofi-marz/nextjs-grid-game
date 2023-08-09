@@ -1,4 +1,6 @@
-type PokemonType =
+import pokedexJson from 'pokedex.json';
+
+export type PokemonType =
     | 'Normal'
     | 'Fire'
     | 'Water'
@@ -19,7 +21,6 @@ type PokemonType =
     | 'Fairy';
 
 type Gen = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
 
 type PokemonResponse = {
     results: { name: string }[];
