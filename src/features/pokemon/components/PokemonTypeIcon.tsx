@@ -43,11 +43,8 @@ const typeIcons = {
 export function PokemonTypeIcon({ type }: { type: Lowercase<PokemonType> }) {
     const src = typeIcons[type.toLocaleLowerCase() as keyof typeof typeIcons];
     return (
-        <Image
-            src={src}
-            fill
-            className="h-full w-full object-cover p-12"
-            alt={`Icon for ${type}`}
-        />
+        <div className="relative flex h-1/2 w-1/2 items-center justify-center">
+            <Image src={src} fill alt={`Icon for ${type}`} />
+        </div>
     );
 }

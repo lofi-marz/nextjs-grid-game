@@ -25,7 +25,7 @@ const t: Config = {
                 secondary: colors.red,
                 grey: colors.neutral,
                 light: colors.neutral[50],
-                dark: colors.neutral[950],
+                dark: colors.neutral[900],
             },
         },
     },

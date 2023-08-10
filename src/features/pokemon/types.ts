@@ -1,26 +1,26 @@
 import pokedexJson from 'pokedex.json';
 
 export type PokemonType =
-    | 'Normal'
-    | 'Fire'
-    | 'Water'
-    | 'Electric'
-    | 'Grass'
-    | 'Ice'
-    | 'Fighting'
-    | 'Poison'
-    | 'Ground'
-    | 'Flying'
-    | 'Psychic'
-    | 'Bug'
-    | 'Rock'
-    | 'Ghost'
-    | 'Dragon'
-    | 'Dark'
-    | 'Steel'
-    | 'Fairy';
+    | 'normal'
+    | 'fire'
+    | 'water'
+    | 'electric'
+    | 'grass'
+    | 'ice'
+    | 'fighting'
+    | 'poison'
+    | 'ground'
+    | 'flying'
+    | 'psychic'
+    | 'bug'
+    | 'rock'
+    | 'ghost'
+    | 'dragon'
+    | 'dark'
+    | 'steel'
+    | 'fairy';
 
-type Gen = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type PokemonGen = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 type PokemonResponse = {
     results: { name: string }[];
@@ -39,3 +39,13 @@ type Pokemon = {
     sprite: string;
     types: { slot: number; type: { name: string } }[];
 };
+
+type Constraint<T extends string, U> = { type: T; value: U };
+
+export type TypeConstraint = Constraint<'type', PokemonType>;
+
+export type GenConstraint = Constraint<'gen', PokemonGen>;
+
+export type LegendaryConstraint = Constraint<'legendary', boolean>;
+
+export type PokemonConstraint = TypeConstraint | GenConstraint;
