@@ -24,8 +24,8 @@ function GridCell({
     return (
         <button
             className={clsx(
-                'flex h-full w-full items-center justify-center bg-grey-800 p-4 transition-all hover:brightness-50',
-                state && stateMap[state]
+                'flex h-full w-full items-center justify-center p-4 transition-all hover:brightness-50',
+                state ? stateMap[state] : 'bg-grey-800'
             )}
             onClick={onClick}>
             {children}
@@ -53,7 +53,7 @@ export function InnerGrid({
                         <GridCell
                             key={`cell-${rowI}-${cellI}`}
                             onClick={() => onClick(cellI, rowI)}
-                            state={cellStates[cellI][rowI]}>
+                            state={cellStates[rowI][cellI]}>
                             {cell && <PokemonSprite pokemon={cell} />}
                         </GridCell>
                     ))}
@@ -73,11 +73,11 @@ type GridAction<T> = {
 
 const constraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
-    { type: 'type', value: 'water' },
+    { type: 'legendary', value: true },
     { type: 'type', value: 'grass' },
     { type: 'type', value: 'poison' },
-    { type: 'type', value: 'fairy' },
-    { type: 'gen', value: 9 },
+    { type: 'type', value: 'psychic' },
+    { type: 'gen', value: 1 },
 ];
 
 export function Grid() {
@@ -136,23 +136,23 @@ export function Grid() {
             return [constraints[2 - y], constraints[x + 3]];
         };
         const promises = grid.flatMap((row, y) =>
-            row.map(
-                (cell, x) =>
-                    Boolean(cell) &&
-                    Promise.all(
-                        indexToConstraints(x, y).map(
-                            async (c) => await checkPokemonConstraint(c, cell)
-                        )
-                    )
-                        .then((cs) => cs.every((v) => v))
-                        .then((allConstraintsTrue) => {
-                            setCellState(
-                                x,
-                                y,
-                                allConstraintsTrue ? 'correct' : 'incorrect'
-                            );
-                            return allConstraintsTrue;
-                        })
+            row.map((cell, x) =>
+                cell
+                    ? Promise.all(
+                          indexToConstraints(x, y).map(
+                              async (c) => await checkPokemonConstraint(c, cell)
+                          )
+                      )
+                          .then((cs) => cs.every((v) => v))
+                          .then((allConstraintsTrue) => {
+                              setCellState(
+                                  x,
+                                  y,
+                                  allConstraintsTrue ? 'correct' : 'incorrect'
+                              );
+                              return allConstraintsTrue;
+                          })
+                    : false
             )
         );
         console.log('Promises:', promises);
@@ -167,7 +167,7 @@ export function Grid() {
         <div className="grid aspect-square h-full w-full grid-cols-4 grid-rows-4 items-center justify-center gap-1 overflow-clip rounded-xl">
             {constraints.map((c, i) => (
                 <div
-                    key={c.value}
+                    key={`icon-${c.type}-${c.value}`}
                     className={clsx(
                         'relative flex h-full w-full items-center justify-center',
                         constraintClasses[i]

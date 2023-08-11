@@ -1,13 +1,21 @@
 import { PokemonConstraint } from '../types';
 import { PokemonTypeIcon } from './PokemonTypeIcon';
 import { PokemonGenIcon } from './PokemonGenIcon';
-export function ConstraintIcon({
-    constraint,
-}: {
+import { PokemonMonotypeIcon } from './PokemonMonotypeIcon';
+import { PokemonLegendaryIcon } from './PokemonLegendaryIcon';
+type ConstraintIconProps = {
     constraint: PokemonConstraint;
-}) {
-    if (constraint.type === 'type')
-        return <PokemonTypeIcon type={constraint.value} />;
-    if (constraint.type === 'gen')
-        return <PokemonGenIcon gen={constraint.value} />;
+};
+export function ConstraintIcon({ constraint }: ConstraintIconProps) {
+    const { type, value } = constraint;
+    switch (type) {
+        case 'type':
+            return <PokemonTypeIcon type={value} />;
+        case 'gen':
+            return <PokemonGenIcon gen={value} />;
+        case 'monotype':
+            return <PokemonMonotypeIcon isMonotype={value} />;
+        case 'legendary':
+            return <PokemonLegendaryIcon isLegendary={value} />;
+    }
 }

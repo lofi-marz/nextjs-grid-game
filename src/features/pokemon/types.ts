@@ -48,4 +48,10 @@ export type GenConstraint = Constraint<'gen', PokemonGen>;
 
 export type LegendaryConstraint = Constraint<'legendary', boolean>;
 
-export type PokemonConstraint = TypeConstraint | GenConstraint;
+export type MonotypeConstraint = Constraint<'monotype', boolean>;
+
+export type PokemonConstraint =
+    | TypeConstraint
+    | GenConstraint
+    | LegendaryConstraint
+    | MonotypeConstraint;
