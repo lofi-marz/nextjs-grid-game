@@ -3,11 +3,13 @@ import nextJest from 'next/jest.js';
 const createJestConfig = nextJest({
     // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
     dir: './',
-
+    collectCoverage: true,
+    collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/node_modules/**'],
     moduleNameMapper: {
         // Handle module aliases (this will be automatically configured for you soon)
         '^@/components/(.*)$': '<rootDir>/components/$1',
         '^@/pages/(.*)$': '<rootDir>/pages/$1',
+        '^@/@/features/(.*)$': '<rootDir>/@/features/$1',
     },
 });
 
@@ -15,7 +17,6 @@ const createJestConfig = nextJest({
 /** @type {import('jest').Config} */
 const config = {
     // Add more setup options before each test is run
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     testEnvironment: 'jest-environment-jsdom',
 };
 

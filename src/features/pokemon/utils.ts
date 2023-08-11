@@ -1,4 +1,4 @@
-import pokedexJson from 'pokedex.json';
+import pokedexJson from './assets/pokedex.json';
 import { PokemonClient } from 'pokenode-ts';
 import { PokemonConstraint, PokemonGen } from './types';
 async function getPokemon(pokemon: string) {
@@ -21,17 +21,17 @@ export const pokedex = pokedexJson.map((p) => ({
     sprite: p.image.sprite,
 }));
 
-async function isType(pokemon: string, type: string) {
+export async function isType(pokemon: string, type: string) {
     const p = await getPokemon(pokemon);
     return p.types.map((t) => t.type.name).includes(type);
 }
 
-async function isMonotype(pokemon: string) {
+export async function isMonotype(pokemon: string) {
     const p = await getPokemon(pokemon);
     return p.types.length === 1;
 }
 
-async function isGen(pokemon: string, gen: PokemonGen) {
+export async function isGen(pokemon: string, gen: PokemonGen) {
     const p = await getPokemonSpecies(pokemon);
     /* 
         This is a little hacky, but the gen url includes the number, whereas the field is the roman numeral
@@ -40,7 +40,7 @@ async function isGen(pokemon: string, gen: PokemonGen) {
     return p.generation.url.includes(gen.toString());
 }
 
-async function isLegendary(pokemon: string) {
+export async function isLegendary(pokemon: string) {
     const p = await getPokemonSpecies(pokemon);
     return p.is_legendary || p.is_mythical;
 }

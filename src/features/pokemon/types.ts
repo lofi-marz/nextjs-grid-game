@@ -1,4 +1,4 @@
-import pokedexJson from 'pokedex.json';
+import pokedexJson from './assets/pokedex.json';
 
 export type PokemonType =
     | 'normal'

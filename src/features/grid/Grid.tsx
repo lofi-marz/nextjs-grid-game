@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 
-import { PokemonTypeIcon } from 'features/pokemon/components/PokemonTypeIcon';
-import { SearchDialog } from 'features/pokemon/components/SearchDialog';
-import { PokemonSprite } from 'features/pokemon/components/PokemonSprite';
-import { PokemonConstraint, TypeConstraint } from 'features/pokemon/types';
-import { ConstraintIcon } from 'features/pokemon/components';
+import { PokemonTypeIcon } from '@/features/pokemon/components/PokemonTypeIcon';
+import { SearchDialog } from '@/features/pokemon/components/SearchDialog';
+import { PokemonSprite } from '@/features/pokemon/components/PokemonSprite';
+import { PokemonConstraint, TypeConstraint } from '@/features/pokemon/types';
+import { ConstraintIcon } from '@/features/pokemon/components';
 import { CellState } from './types';
-import { checkPokemonConstraint } from 'features/pokemon/utils';
+import { checkPokemonConstraint } from '@/features/pokemon/utils';
 
 function GridRow({ children }: PropsWithChildren) {
     return <div>{children}</div>;
@@ -155,7 +155,7 @@ export function Grid() {
                     : false
             )
         );
-        console.log('Promises:', promises);
+
         (async () => console.log(await Promise.all(promises)))();
     }, [grid]);
 

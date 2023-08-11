@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import pokedexJson from 'pokedex.json';
+import pokedexJson from '../assets/pokedex.json';
 import { Combobox, Dialog, Popover } from '@headlessui/react';
 import Image from 'next/image';
 const pokemonList = pokedexJson.map((p) => ({

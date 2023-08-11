@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import clsx from 'clsx';
 import { sans } from '../fonts';
-import { Grid } from 'features/grid';
+import { Grid } from '@/features/grid';
 
 export default function Home() {
     return (
@@ -15,7 +15,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="flex h-screen w-full items-center justify-center bg-dark text-light">
-                <div className="flex aspect-square h-[100vh] w-[100vh] items-center justify-center p-6">
+                <div className="flex aspect-square h-4/5 max-h-[100vw] items-center justify-center p-6">
                     <Grid />
                 </div>
             </div>

@@ -14,12 +14,13 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "baseUrl": "src",
+        "baseUrl": ".",
+
         "paths": {
-            "@/components/*": ["components/*"],
-            "@/pages/*": ["pages/*"],
-            "@/utils/*": ["utils/*"],
-            "@/styles/*": ["styles/*"]
+            "@/components/*": ["src/components/*"],
+            "@/pages/*": ["src/pages/*"],
+            "@/utils/*": ["src/utils/*"],
+            "@/features/*": ["src/features/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types.d.ts"],
