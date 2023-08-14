@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as path from 'path';
-import { SinglePokemonResponse } from './types';
+import { PokemonConstraint, SinglePokemonResponse } from './types';
+import { PokemonClient } from 'pokenode-ts';
+import { checkPokemonConstraint } from './utils';
 export function getPokemon(idOrName: string) {
     return axios
         .get<SinglePokemonResponse>(
@@ -13,4 +15,17 @@ export function getPokemon(idOrName: string) {
                 types: data.types,
             };
         });
+}
+
+export async function fetchPokemonConstraints(
+    p: PokemonClient,
+    pokemonName: string,
+    cs: PokemonConstraint[]
+) {
+    const pokemon = await p.getPokemonByName(pokemonName);
+    const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
+    const results = await Promise.all(
+        cs.map((c) => checkPokemonConstraint(c, pokemon, pokemonSpecies))
+    );
+    return results.every((v) => v);
 }

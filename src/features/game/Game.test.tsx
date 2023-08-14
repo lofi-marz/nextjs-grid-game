@@ -1,0 +1,28 @@
+import { cleanup, fireEvent, render } from '@testing-library/react';
+import { InnerGrid } from './Game';
+describe('Grid', () => {
+    it('Clicking a cell opens the dialog menu', async () => {
+        // eslint-disable-next-line testing-library/render-result-naming-convention
+        const onClick = jest.fn();
+        const view = render(
+            <InnerGrid
+                cells={[
+                    [null, null, null],
+                    [null, null, null],
+                    [null, null, null],
+                ]}
+                cellStates={[
+                    [null, null, null],
+                    [null, null, null],
+                    [null, null, null],
+                ]}
+                onClick={onClick}
+            />
+        );
+
+        // eslint-disable-next-line testing-library/prefer-screen-queries
+        const [button] = await view.findAllByTestId('grid-button');
+        fireEvent.click(button);
+        expect(onClick).toBeCalled();
+    });
+});

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { sans } from 'fonts';
+import { sans } from '@/styles/fonts';
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {

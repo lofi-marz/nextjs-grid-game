@@ -1,5 +1,5 @@
 import pokedexJson from './assets/pokedex.json';
-import { PokemonClient } from 'pokenode-ts';
+import { PokemonClient, Pokemon, PokemonSpecies } from 'pokenode-ts';
 import { PokemonConstraint, PokemonGen } from './types';
 async function getPokemon(pokemon: string) {
     const p = new PokemonClient();
@@ -21,28 +21,24 @@ export const pokedex = pokedexJson.map((p) => ({
     sprite: p.image.sprite,
 }));
 
-export async function isType(pokemon: string, type: string) {
-    const p = await getPokemon(pokemon);
-    return p.types.map((t) => t.type.name).includes(type);
+export async function isType(pokemon: Pokemon, type: string) {
+    return pokemon.types.map((t) => t.type.name).includes(type);
 }
 
-export async function isMonotype(pokemon: string) {
-    const p = await getPokemon(pokemon);
-    return p.types.length === 1;
+export async function isMonotype(pokemon: Pokemon) {
+    return pokemon.types.length === 1;
 }
 
-export async function isGen(pokemon: string, gen: PokemonGen) {
-    const p = await getPokemonSpecies(pokemon);
+export async function isGen(pokemonSpecies: PokemonSpecies, gen: number) {
     /* 
         This is a little hacky, but the gen url includes the number, whereas the field is the roman numeral
         Remind me to update this in a year when gen 10 comes out
     */
-    return p.generation.url.includes(gen.toString());
+    return pokemonSpecies.generation.url.includes(gen.toString());
 }
 
-export async function isLegendary(pokemon: string) {
-    const p = await getPokemonSpecies(pokemon);
-    return p.is_legendary || p.is_mythical;
+export async function isLegendary(pokemonSpecies: PokemonSpecies) {
+    return pokemonSpecies.is_legendary || pokemonSpecies.is_mythical;
 }
 
 /*const constraintMap = {
@@ -54,15 +50,16 @@ export async function isLegendary(pokemon: string) {
     PokemonConstraint['type'],
     (...params: any[]) => Promise<boolean>
 >;*/
-export async function checkPokemonConstraint(
+export function checkPokemonConstraint(
     { type, value }: PokemonConstraint,
-    pokemon: string
+    pokemon: Pokemon,
+    pokemonSpecies: PokemonSpecies //Not sure if it's worth figuring out which one I need vs just doing two API calls
 ) {
     switch (type) {
         case 'gen':
-            return isGen(pokemon, value);
+            return isGen(pokemonSpecies, value);
         case 'legendary':
-            return isLegendary(pokemon);
+            return isLegendary(pokemonSpecies);
         case 'monotype':
             return isMonotype(pokemon);
         case 'type':

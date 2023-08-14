@@ -12,7 +12,7 @@ import {
     checkPokemonConstraint,
     pokedex,
 } from './utils';
-
+//TODO: Refactor these
 describe('Pokémon Functions', () => {
     it('should correctly identify if a Pokémon is of a certain type', async () => {
         const result = await isType('pikachu', 'electric');
