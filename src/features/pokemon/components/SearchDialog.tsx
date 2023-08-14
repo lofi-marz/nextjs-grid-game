@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import pokedexJson from '../assets/pokedex.json';
-import { Combobox, Dialog, Popover } from '@headlessui/react';
-import Image from 'next/image';
+import { Combobox, Dialog } from '@headlessui/react';
+import { FaCheck } from 'react-icons/fa6';
 const pokemonList = pokedexJson.map((p) => ({
     value: p.name.english.toLocaleLowerCase(),
     label: p.name.english,
@@ -34,8 +34,8 @@ export function SearchDialog({
         <Dialog open={open} onClose={onClose} className="relative z-50 text-xl">
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
             <div className="fixed inset-0 flex h-full w-full items-start justify-center p-12 pt-48 decoration-primary-500">
-                <Dialog.Panel className="flex w-full max-w-sm flex-col items-center justify-center gap-6 rounded-xl border-2 border-neutral-800 bg-dark p-6 font-sans drop-shadow">
-                    <Dialog.Title className="font-bold">
+                <Dialog.Panel className="flex w-full max-w-sm flex-col items-center justify-center gap-6 rounded-xl border-2 border-neutral-800 bg-dark p-6 font-sans text-base drop-shadow">
+                    <Dialog.Title className="text-xl font-bold">
                         Search Pokemon
                     </Dialog.Title>
                     <Combobox
@@ -44,14 +44,22 @@ export function SearchDialog({
                             setSelected(v);
                             onChange(v);
                         }}>
-                        <Combobox.Input
-                            className="w-full rounded-xl border-none bg-neutral-950 outline-none"
-                            onChange={(event) => setQuery(event.target.value)}
-                        />
-                        <Combobox.Options className="max-h-96 w-full text-sm">
+                        <div className="flex h-[1.5lh] w-full flex-row">
+                            <Combobox.Input
+                                className="grow rounded-l-xl  border-none bg-primary-500 capitalize outline-none transition-all placeholder:text-light focus:ring-light/10"
+                                placeholder={initialValue}
+                                onChange={(event) =>
+                                    setQuery(event.target.value)
+                                }
+                            />
+                            <button className="flex aspect-square h-full items-center justify-center rounded-r-xl border-l   border-primary-600 bg-primary-500">
+                                <FaCheck />
+                            </button>
+                        </div>
+                        <Combobox.Options className="flex max-h-96 w-full flex-col gap-1">
                             {filteredResults.map(({ value, label }) => (
                                 <Combobox.Option
-                                    className="hover:cursor-pointer"
+                                    className="rounded-xl px-3 py-1 transition-all hover:cursor-pointer hover:bg-primary-500"
                                     key={value}
                                     value={value}>
                                     {label}

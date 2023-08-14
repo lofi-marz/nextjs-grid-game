@@ -1,7 +1,7 @@
-import { Poppins, Inter } from 'next/font/google';
+import { Poppins, Inter, Rubik } from 'next/font/google';
 
-export const sans = Inter({
+export const sans = Rubik({
     subsets: ['latin'],
-    weight: ['200', '300', '400', '600', '700', '900'],
+    weight: 'variable',
     variable: '--font-sans',
 });
