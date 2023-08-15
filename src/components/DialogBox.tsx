@@ -54,7 +54,7 @@ export function DialogBox({ open, onClose, title, children }: DialogBoxProps) {
                                     {title}
                                 </Dialog.Title>
                             )}
-                            <div>{children}</div>
+                            <div className="w-full">{children}</div>
                         </Dialog.Panel>
                     </div>
                 </Dialog>

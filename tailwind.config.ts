@@ -23,9 +23,9 @@ const t: Config = {
             colors: {
                 primary: colors.emerald,
                 secondary: colors.red,
-                grey: colors.stone,
-                light: colors.stone[50],
-                dark: colors.stone[900],
+                grey: colors.slate,
+                light: colors.slate[50],
+                dark: colors.slate[950],
             },
         },
     },

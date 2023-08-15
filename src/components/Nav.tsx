@@ -3,8 +3,8 @@ import { DialogBox, useDialogControls } from './DialogBox';
 export function Nav() {
     const [open, onOpen, onClose] = useDialogControls();
     return (
-        <nav className="flex h-20 w-full flex-row items-center justify-between px-12">
-            <div>Pokedoku</div>
+        <nav className="flex h-20 w-full flex-row items-center justify-between bg-dark px-12">
+            <div className="font-bold">Pokedoku</div>
             <button onClick={onOpen}>How to Play</button>
             <DialogBox open={open} onClose={onClose} title="How to Play">
                 <div className="prose prose-sm prose-gray dark:prose-invert">
