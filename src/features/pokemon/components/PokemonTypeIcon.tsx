@@ -18,6 +18,7 @@ import dark from '../assets/types/dark.png';
 import steel from '../assets/types/steel.png';
 import fairy from '../assets/types/fairy.png';
 import dragon from '../assets/types/dragon.png';
+import { capitalize } from '@/utils/text';
 
 const typeIcons = {
     normal,
@@ -43,7 +44,9 @@ const typeIcons = {
 export function PokemonTypeIcon({ type }: { type: Lowercase<PokemonType> }) {
     const src = typeIcons[type.toLocaleLowerCase() as keyof typeof typeIcons];
     return (
-        <div className="relative flex h-1/2 w-1/2 items-center justify-center">
+        <div
+            className="relative flex h-1/2 w-1/2 items-center justify-center"
+            title={`${capitalize(type)} Type Icon`}>
             <Image src={src} fill alt={`Icon for ${type}`} />
         </div>
     );

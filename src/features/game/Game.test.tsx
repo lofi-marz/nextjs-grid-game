@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import { InnerGrid } from './Game';
-describe('Grid', () => {
+describe('Game', () => {
     it('Clicking a cell opens the dialog menu', async () => {
         // eslint-disable-next-line testing-library/render-result-naming-convention
         const onClick = jest.fn();
@@ -24,5 +24,9 @@ describe('Grid', () => {
         const [button] = await view.findAllByTestId('grid-button');
         fireEvent.click(button);
         expect(onClick).toBeCalled();
+    });
+
+    it('Winning the game works', () => {
+        const view = render()
     });
 });

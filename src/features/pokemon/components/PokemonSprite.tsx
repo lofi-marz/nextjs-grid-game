@@ -3,7 +3,7 @@ import { pokedex } from '../utils';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
 export function PokemonSprite({ pokemon }: { pokemon: string }) {
-    const src = pokedex.find((p) => p.value === pokemon)?.sprite!;
+    //const src = pokedex.find((p) => p.value === pokemon)?.sprite!;
     const p = new PokemonClient(); //TODO: Context
     const { data } = useQuery({
         queryKey: 'pokemon-' + pokemon,

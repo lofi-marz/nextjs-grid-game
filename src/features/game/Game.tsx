@@ -6,7 +6,7 @@ import { PokemonSprite } from '@/features/pokemon/components/PokemonSprite';
 import { PokemonConstraint } from '@/features/pokemon/types';
 import { ConstraintIcon } from '@/features/pokemon/components';
 import { CellState } from './types';
-import { getConstraintsByIndex } from './utils';
+import { checkWinState, getConstraintsByIndex } from './utils';
 import { useGameReducer } from './reducers';
 import { PokemonClient } from 'pokenode-ts';
 import { fetchPokemonConstraints } from '../pokemon/api';
@@ -24,10 +24,10 @@ function GridCell({
         <button
             className={clsx(
                 'flex h-full w-full items-center justify-center transition-all hover:brightness-50',
-                state ? stateMap[state] : 'bg-grey-800'
+                state ? stateMap[state] : 'bg-grey-200 dark:bg-grey-800'
             )}
             data-testid="grid-button"
-            onClick={onClick}>
+            onClick={state === 'correct' ? undefined : onClick}>
             {children}
         </button>
     );
@@ -71,7 +71,7 @@ type GridAction<T> = {
     {type: 'add', payload: }
 }*/
 
-const constraints: PokemonConstraint[] = [
+const testConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'legendary', value: true },
     { type: 'type', value: 'grass' },
@@ -79,6 +79,17 @@ const constraints: PokemonConstraint[] = [
     { type: 'monotype', value: true },
     { type: 'gen', value: 1 },
 ];
+
+const sameConstraints: PokemonConstraint[] = [
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+];
+
+const constraints = sameConstraints;
 
 const constraintClasses = [
     'col-start-1 row-start-4',
@@ -95,10 +106,26 @@ export function Game() {
     const [open, setOpen] = useState(false);
 
     const [currentCell, setCurrentCell] = useState<[number, number] | null>();
-
-    useEffect(() => {
-        console.log(grid);
-    }, [grid]);
+    const onSearchChange = (v: string) => {
+        if (!currentCell) return;
+        const [x, y] = currentCell;
+        dispatch({
+            type: 'guess',
+            cell: { x, y, pokemon: v },
+        });
+        const cs = getConstraintsByIndex(constraints, x, y);
+        fetchPokemonConstraints(p, v, cs).then((allConstraintsTrue) =>
+            dispatch({
+                type: 'updateCellState',
+                cell: {
+                    x,
+                    y,
+                    state: allConstraintsTrue ? 'correct' : 'incorrect',
+                },
+            })
+        );
+    };
+    const gamefinished = checkWinState({ grid, stateGrid, guessCount });
 
     const onClick = (x: number, y: number) => {
         setCurrentCell([x, y]);
@@ -106,8 +133,8 @@ export function Game() {
     };
 
     return (
-        <div className="flex h-full w-full flex-row items-center justify-center">
-            <div className="flex aspect-square h-full max-h-[100vw] items-center justify-center p-6">
+        <div className="flex h-full w-full flex-row flex-wrap content-center items-center justify-center gap-8">
+            <div className="flex aspect-square h-full max-h-[100vw] items-center justify-center p-6 pb-12 pt-0">
                 <div className="grid aspect-square h-full w-full grid-cols-4 grid-rows-4 items-center justify-center gap-1 overflow-clip rounded-xl">
                     {constraints.map((c, i) => (
                         <div
@@ -124,39 +151,18 @@ export function Game() {
                         cells={grid}
                         cellStates={stateGrid}
                     />
-                    <SearchDialog
-                        open={open}
-                        onClose={() => setOpen(false)}
-                        initialValue={''}
-                        onChange={(v) => {
-                            if (!currentCell) return;
-                            const [x, y] = currentCell;
-                            dispatch({
-                                type: 'guess',
-                                cell: { x, y, pokemon: v },
-                            });
-                            const cs = getConstraintsByIndex(constraints, x, y);
-                            fetchPokemonConstraints(p, v, cs).then(
-                                (allConstraintsTrue) =>
-                                    dispatch({
-                                        type: 'updateCellState',
-                                        cell: {
-                                            x,
-                                            y,
-                                            state: allConstraintsTrue
-                                                ? 'correct'
-                                                : 'incorrect',
-                                        },
-                                    })
-                            );
-                        }}
-                    />
                 </div>
             </div>
             <div className="flex flex-col gap-4 text-4xl font-bold">
                 <div>Shots</div>
                 <div className="text-center">{guessCount}</div>
             </div>
+            <SearchDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                initialValue=""
+                onChange={onSearchChange}
+            />
         </div>
     );
 }

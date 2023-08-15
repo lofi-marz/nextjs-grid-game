@@ -1,3 +1,4 @@
+import { PokemonClient } from 'pokenode-ts';
 import {
     GenConstraint,
     LegendaryConstraint,
@@ -13,24 +14,30 @@ import {
     pokedex,
 } from './utils';
 //TODO: Refactor these
+const p = new PokemonClient();
+
 describe('Pokémon Functions', () => {
     it('should correctly identify if a Pokémon is of a certain type', async () => {
-        const result = await isType('pikachu', 'electric');
+        const electricTypePokemon = await p.getPokemonByName('pikachu');
+        const result = isType(electricTypePokemon, 'electric');
         expect(result).toBe(true);
     });
 
     it('should correctly identify if a Pokémon is monotype', async () => {
-        const result = await isMonotype('charmander');
+        const monotypePokemon = await p.getPokemonByName('charizard');
+        const result = isMonotype(monotypePokemon);
         expect(result).toBe(true);
     });
 
     it('should correctly identify if a Pokémon belongs to a specific generation', async () => {
-        const result = await isGen('bulbasaur', 1); // Assuming 1 is the generation for Bulbasaur
+        const pokemon = await p.getPokemonSpeciesByName('charizard');
+        const result = isGen(pokemon, 1); // Assuming 1 is the generation for Bulbasaur
         expect(result).toBe(true);
     });
 
     it('should correctly identify if a Pokémon is legendary or mythical', async () => {
-        const result = await isLegendary('mew');
+        const pokemon = await p.getPokemonSpeciesByName('mew');
+        const result = isLegendary(pokemon);
         expect(result).toBe(true);
     });
 });
