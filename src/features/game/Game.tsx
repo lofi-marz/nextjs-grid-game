@@ -6,15 +6,34 @@ import { PokemonSprite } from '@/features/pokemon/components/PokemonSprite';
 import { PokemonConstraint } from '@/features/pokemon/types';
 import { ConstraintIcon } from '@/features/pokemon/components';
 import { CellState } from './types';
-import { checkWinState, getConstraintsByIndex } from './utils';
+import {
+    cellStateColourClasses,
+    checkWinState,
+    getConstraintsByIndex,
+} from './utils';
 import { useGameReducer } from './reducers';
 import { PokemonClient } from 'pokenode-ts';
 import { fetchPokemonConstraints } from '../pokemon/api';
+import { GameEndDialog } from './components';
 
-const stateMap = {
-    correct: 'bg-green-500',
-    incorrect: 'bg-red-500',
-} satisfies Record<NonNullable<CellState>, string>;
+const testConstraints: PokemonConstraint[] = [
+    { type: 'type', value: 'fire' },
+    { type: 'legendary', value: true },
+    { type: 'type', value: 'grass' },
+    { type: 'type', value: 'poison' },
+    { type: 'monotype', value: true },
+    { type: 'gen', value: 1 },
+];
+
+const sameConstraints: PokemonConstraint[] = [
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+];
+
 function GridCell({
     children,
     onClick,
@@ -24,10 +43,10 @@ function GridCell({
         <button
             className={clsx(
                 'flex h-full w-full items-center justify-center transition-all hover:brightness-50',
-                state ? stateMap[state] : 'bg-grey-200 dark:bg-grey-800'
+                cellStateColourClasses[state ?? 'empty']
             )}
             data-testid="grid-button"
-            onClick={state === 'correct' ? undefined : onClick}>
+            onClick={onClick}>
             {children}
         </button>
     );
@@ -63,32 +82,6 @@ export function InnerGrid({
     );
 }
 
-/*type GameState<T> = {
-    cells: T[][];
-};
-
-type GridAction<T> = {
-    {type: 'add', payload: }
-}*/
-
-const testConstraints: PokemonConstraint[] = [
-    { type: 'type', value: 'fire' },
-    { type: 'legendary', value: true },
-    { type: 'type', value: 'grass' },
-    { type: 'type', value: 'poison' },
-    { type: 'monotype', value: true },
-    { type: 'gen', value: 1 },
-];
-
-const sameConstraints: PokemonConstraint[] = [
-    { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
-];
-
 const constraints = sameConstraints;
 
 const constraintClasses = [
@@ -102,10 +95,36 @@ const constraintClasses = [
 
 export function Game() {
     const p = useMemo(() => new PokemonClient(), []); //TODO: Best way to do this?
-    const [{ grid, stateGrid, guessCount }, dispatch] = useGameReducer();
+    const [gameState, dispatch] = useGameReducer();
+    const { grid, stateGrid, guessCount } = gameState;
     const [open, setOpen] = useState(false);
 
     const [currentCell, setCurrentCell] = useState<[number, number] | null>();
+    useEffect(() => {
+        updateCellState();
+    }, []);
+    const updateCellState = () => {
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 3; x++) {
+                const cs = getConstraintsByIndex(constraints, x, y);
+                const pokemonName = grid[y][x];
+                if (!pokemonName) continue;
+                fetchPokemonConstraints(p, pokemonName, cs).then(
+                    (allConstraintsTrue) =>
+                        dispatch({
+                            type: 'updateCellState',
+                            cell: {
+                                x,
+                                y,
+                                state: allConstraintsTrue
+                                    ? 'correct'
+                                    : 'incorrect',
+                            },
+                        })
+                );
+            }
+        }
+    };
     const onSearchChange = (v: string) => {
         if (!currentCell) return;
         const [x, y] = currentCell;
@@ -126,6 +145,7 @@ export function Game() {
         );
     };
     const gamefinished = checkWinState({ grid, stateGrid, guessCount });
+    console.log(gamefinished);
 
     const onClick = (x: number, y: number) => {
         setCurrentCell([x, y]);
@@ -138,7 +158,7 @@ export function Game() {
                 <div className="grid aspect-square h-full w-full grid-cols-4 grid-rows-4 items-center justify-center gap-1 overflow-clip rounded-xl">
                     {constraints.map((c, i) => (
                         <div
-                            key={`icon-${c.type}-${c.value}`}
+                            key={`icon-${c.type}-${c.value}-${i}`}
                             className={clsx(
                                 'relative flex h-full w-full items-center justify-center',
                                 constraintClasses[i]
@@ -163,6 +183,7 @@ export function Game() {
                 initialValue=""
                 onChange={onSearchChange}
             />
+            {gamefinished && <GameEndDialog gameState={gameState} />}
         </div>
     );
 }

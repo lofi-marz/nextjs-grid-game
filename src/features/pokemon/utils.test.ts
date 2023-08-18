@@ -24,7 +24,7 @@ describe('Pokémon Functions', () => {
     });
 
     it('should correctly identify if a Pokémon is monotype', async () => {
-        const monotypePokemon = await p.getPokemonByName('charizard');
+        const monotypePokemon = await p.getPokemonByName('charmander');
         const result = isMonotype(monotypePokemon);
         expect(result).toBe(true);
     });
@@ -44,32 +44,60 @@ describe('Pokémon Functions', () => {
 
 describe('Pokemon Constraint Checker', () => {
     it('should correctly check a gen constraint', async () => {
+        const pokemonName = 'bulbasaur';
+        const pokemon = await p.getPokemonByName(pokemonName);
+        const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
         const constraint: GenConstraint = { type: 'gen', value: 1 }; // Assuming 1 is the generation for Bulbasaur
-        const result = await checkPokemonConstraint(constraint, 'bulbasaur');
+        const result = await checkPokemonConstraint(
+            constraint,
+            pokemon,
+            pokemonSpecies
+        );
         expect(result).toBe(true);
     });
 
     it('should correctly check a legendary constraint', async () => {
+        const pokemonName = 'mew';
+        const pokemon = await p.getPokemonByName(pokemonName);
+        const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
         const constraint: LegendaryConstraint = {
             type: 'legendary',
             value: true,
         };
-        const result = await checkPokemonConstraint(constraint, 'mew');
+        const result = await checkPokemonConstraint(
+            constraint,
+            pokemon,
+            pokemonSpecies
+        );
         expect(result).toBe(true);
     });
 
     it('should correctly check a monotype constraint', async () => {
+        const pokemonName = 'mew';
+        const pokemon = await p.getPokemonByName(pokemonName);
+        const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
         const constraint: MonotypeConstraint = {
             type: 'monotype',
             value: true,
         };
-        const result = await checkPokemonConstraint(constraint, 'charmander');
+        const result = await checkPokemonConstraint(
+            constraint,
+            pokemon,
+            pokemonSpecies
+        );
         expect(result).toBe(true);
     });
 
     it('should correctly check a type constraint', async () => {
+        const pokemonName = 'charizard';
+        const pokemon = await p.getPokemonByName(pokemonName);
+        const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
         const constraint: TypeConstraint = { type: 'type', value: 'fire' };
-        const result = await checkPokemonConstraint(constraint, 'charmander');
+        const result = await checkPokemonConstraint(
+            constraint,
+            pokemon,
+            pokemonSpecies
+        );
         expect(result).toBe(true);
     });
 });

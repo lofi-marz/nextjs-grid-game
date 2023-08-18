@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { sans } from '../styles/fonts';
 import { Game } from 'src/features/game';
 import { Nav } from '@/components/Nav';
-import backgroundPattern from '../assets/patterns/connected.png';
 export default function Home() {
     return (
         <div

@@ -1,5 +1,16 @@
 import { useReducer } from 'react';
 import { CellState, GridAction, GameState } from './types';
+const allCharmander = [
+    ['charmander', 'charmander', 'charmander'],
+    ['charmander', 'charmander', 'charmander'],
+    ['charmander', 'charmander', 'charmander'],
+];
+
+const randomPokemon = [
+    ['bulbasaur', 'charmander', 'squirtle'],
+    ['pikachu', 'jigglypuff', 'meowth'],
+    ['psyduck', 'geodude', null],
+];
 
 function gameReducer(state: GameState, action: GridAction): GameState {
     switch (action.type) {
@@ -44,11 +55,7 @@ const emptyGameState: GameState = {
 };
 
 const testGameState: GameState = {
-    grid: [
-        ['bulbasaur', 'charmander', 'squirtle'],
-        ['pikachu', 'jigglypuff', 'meowth'],
-        ['psyduck', 'geodude', null],
-    ],
+    grid: allCharmander,
     stateGrid: [
         [null, null, null],
         [null, null, null],
@@ -57,7 +64,7 @@ const testGameState: GameState = {
     guessCount: 9,
 };
 export function useGameReducer() {
-    return useReducer(gameReducer, emptyGameState);
+    return useReducer(gameReducer, testGameState);
 }
 
 function setCell<T>(grid: T[][], x: number, y: number, item: T) {

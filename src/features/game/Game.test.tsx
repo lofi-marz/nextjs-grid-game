@@ -26,7 +26,5 @@ describe('Game', () => {
         expect(onClick).toBeCalled();
     });
 
-    it('Winning the game works', () => {
-        const view = render()
-    });
+    it('Winning the game works', () => {});
 });

@@ -2,15 +2,18 @@ import { Dialog } from '@headlessui/react';
 import { useState, type PropsWithChildren } from 'react';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
-export function useDialogControls() {
-    const [open, setOpen] = useState(false);
+import { WithClassNameProps } from 'src/types';
+import clsx from 'clsx';
+export function useDialogControls(startOpen = false) {
+    const [open, setOpen] = useState(startOpen);
     return [open, () => setOpen(true), () => setOpen(false)] as const;
 }
 type DialogBoxProps = PropsWithChildren<{
     open: boolean;
     onClose: () => void;
     title?: string;
-}>;
+}> &
+    WithClassNameProps;
 
 const dialogBoxContainerVariants: Variants = {
     hide: { opacity: 0 },
@@ -22,7 +25,13 @@ const dialogBoxVariants: Variants = {
     show: { scaleX: 1 },
 };
 
-export function DialogBox({ open, onClose, title, children }: DialogBoxProps) {
+export function DialogBox({
+    open,
+    onClose,
+    title,
+    children,
+    className,
+}: DialogBoxProps) {
     return (
         <AnimatePresence>
             {open && (
@@ -54,7 +63,9 @@ export function DialogBox({ open, onClose, title, children }: DialogBoxProps) {
                                     {title}
                                 </Dialog.Title>
                             )}
-                            <div className="w-full">{children}</div>
+                            <div className={clsx('w-full', className)}>
+                                {children}
+                            </div>
                         </Dialog.Panel>
                     </div>
                 </Dialog>

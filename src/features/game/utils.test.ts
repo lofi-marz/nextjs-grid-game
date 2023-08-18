@@ -5,6 +5,21 @@ const emptyGrid = () => [
     [null, null, null],
     [null, null, null],
 ];
+
+const sameConstraints: PokemonConstraint[] = [
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'fire' },
+];
+
+const allCharmander = [
+    ['charmander', 'charmander', 'charmander'],
+    ['charmander', 'charmander', 'charmander'],
+    ['charmander', 'charmander', 'charmander'],
+];
 describe('Grid Utils', () => {
     it('countGuesses correctly counts guesses', () => {
         const testGrid = [

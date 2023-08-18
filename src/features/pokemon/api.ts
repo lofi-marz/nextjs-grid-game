@@ -29,3 +29,4 @@ export async function fetchPokemonConstraints(
     );
     return results.every((v) => v);
 }
+

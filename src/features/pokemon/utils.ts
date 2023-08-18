@@ -21,15 +21,16 @@ export const pokedex = pokedexJson.map((p) => ({
     sprite: p.image.sprite,
 }));
 
-export async function isType(pokemon: Pokemon, type: string) {
+export function isType(pokemon: Pokemon, type: string) {
     return pokemon.types.map((t) => t.type.name).includes(type);
 }
 
-export async function isMonotype(pokemon: Pokemon) {
+export function isMonotype(pokemon: Pokemon) {
+    console.log(pokemon.types);
     return pokemon.types.length === 1;
 }
 
-export async function isGen(pokemonSpecies: PokemonSpecies, gen: number) {
+export function isGen(pokemonSpecies: PokemonSpecies, gen: number) {
     /* 
         This is a little hacky, but the gen url includes the number, whereas the field is the roman numeral
         Remind me to update this in a year when gen 10 comes out
@@ -37,7 +38,7 @@ export async function isGen(pokemonSpecies: PokemonSpecies, gen: number) {
     return pokemonSpecies.generation.url.includes(gen.toString());
 }
 
-export async function isLegendary(pokemonSpecies: PokemonSpecies) {
+export function isLegendary(pokemonSpecies: PokemonSpecies) {
     return pokemonSpecies.is_legendary || pokemonSpecies.is_mythical;
 }
 
