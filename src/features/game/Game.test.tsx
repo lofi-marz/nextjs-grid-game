@@ -1,9 +1,10 @@
 import { cleanup, fireEvent, render } from '@testing-library/react';
+import { vi } from 'vitest';
 import { InnerGrid } from './Game';
 describe('Game', () => {
     it('Clicking a cell opens the dialog menu', async () => {
         // eslint-disable-next-line testing-library/render-result-naming-convention
-        const onClick = jest.fn();
+        const onClick = vi.fn();
         const view = render(
             <InnerGrid
                 cells={[

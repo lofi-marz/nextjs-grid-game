@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as path from 'path';
 import { PokemonConstraint, SinglePokemonResponse } from './types';
-import { PokemonClient } from 'pokenode-ts';
+import { Pokemon, PokemonClient } from 'pokenode-ts';
 import { checkPokemonConstraint } from './utils';
 export function getPokemon(idOrName: string) {
     return axios
@@ -17,16 +17,44 @@ export function getPokemon(idOrName: string) {
         });
 }
 
+/**
+ *  Fetches a specific Pokemon, and its parent species by name.
+ * @param p The PokemonClient to use
+ * @param pokemonName The kebab-case name of the Pokemon. If a pokemon has specific variants, this will be the name of the variant.
+ * @returns A tuple array containing the Pokemon and PokemonSpecies resource.
+ */
+export async function getPokemonAndSpeciesByName(
+    p: PokemonClient,
+    pokemonName: string
+) {
+    const pokemon = await p.getPokemonByName(pokemonName);
+    const pokemonSpecies = await p.getPokemonSpeciesByName(
+        pokemon.species.name
+    );
+    return [pokemon, pokemonSpecies] as const;
+}
+
 export async function fetchPokemonConstraints(
     p: PokemonClient,
     pokemonName: string,
     cs: PokemonConstraint[]
 ) {
-    const pokemon = await p.getPokemonByName(pokemonName);
-    const pokemonSpecies = await p.getPokemonSpeciesByName(pokemonName);
+    const [pokemon, pokemonSpecies] = await getPokemonAndSpeciesByName(
+        p,
+        pokemonName
+    );
     const results = await Promise.all(
         cs.map((c) => checkPokemonConstraint(c, pokemon, pokemonSpecies))
     );
     return results.every((v) => v);
 }
 
+export async function getLatestGame(): Promise<PokemonConstraint[]> {
+    return [];
+}
+
+export async function getMatchingPokemon(
+    constraint: PokemonConstraint
+): Promise<Pokemon[]> {
+    return [];
+}

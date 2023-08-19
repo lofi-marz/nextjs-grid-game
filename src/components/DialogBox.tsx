@@ -2,7 +2,7 @@ import { Dialog } from '@headlessui/react';
 import { useState, type PropsWithChildren } from 'react';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
-import { WithClassNameProps } from 'src/types';
+import { WithClassNameProps } from 'types';
 import clsx from 'clsx';
 export function useDialogControls(startOpen = false) {
     const [open, setOpen] = useState(startOpen);

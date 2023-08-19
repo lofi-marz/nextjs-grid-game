@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { PokemonConstraint } from '../pokemon/types';
 import { countGuesses, getConstraintsByIndex } from './utils';
 const emptyGrid = () => [

@@ -1,25 +1,24 @@
 import { useState } from 'react';
-import pokedexJson from '../assets/pokedex.json';
+
 import { Combobox, Dialog } from '@headlessui/react';
 import { FaCheck } from 'react-icons/fa6';
 import { DialogBox } from '@/components/DialogBox';
-const pokemonList = pokedexJson.map((p) => ({
-    value: p.name.english.toLocaleLowerCase(),
-    label: p.name.english,
-    sprite: p.image.hires,
-}));
 
-export function SearchDialog({
-    open,
-    onClose,
-    onChange,
-    initialValue,
-}: {
+type SearchDialogProps =  {
+    pokemonList: {name: string, value: string},
     open: boolean;
     initialValue: string;
     onClose: () => void;
     onChange: (value: string) => void;
-}) {
+}
+
+export function SearchDialog({
+    pokemonList: pokedex,
+    open,
+    onClose,
+    onChange,
+    initialValue,
+}: SearchDialogProps) {
     const [query, setQuery] = useState('');
     const [selected, setSelected] = useState(initialValue);
 

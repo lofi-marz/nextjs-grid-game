@@ -19,14 +19,14 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "baseUrl": ".",
+        "baseUrl": "./src",
         "downlevelIteration": true,
         "paths": {
-            "@/components/*": ["src/components/*"],
-            "@/pages/*": ["src/pages/*"],
-            "@/utils/*": ["src/utils/*"],
-            "@/features/*": ["src/features/*"],
-            "@/styles/*": ["src/styles/*"]
+            "@/components/*": ["components/*"],
+            "@/pages/*": ["pages/*"],
+            "@/utils/*": ["utils/*"],
+            "@/features/*": ["features/*"],
+            "@/styles/*": ["styles/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types.d.ts"],

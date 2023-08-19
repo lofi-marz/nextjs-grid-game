@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { PokemonClient } from 'pokenode-ts';
 import {
     GenConstraint,
