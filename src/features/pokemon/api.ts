@@ -27,6 +27,7 @@ export async function getPokemonAndSpeciesByName(
     p: PokemonClient,
     pokemonName: string
 ) {
+    console.log('Fetching', pokemonName);
     const pokemon = await p.getPokemonByName(pokemonName);
     const pokemonSpecies = await p.getPokemonSpeciesByName(
         pokemon.species.name

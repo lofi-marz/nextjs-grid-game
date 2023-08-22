@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
-import { Combobox, Dialog } from '@headlessui/react';
+import { Combobox } from '@headlessui/react';
 import { FaCheck } from 'react-icons/fa6';
 import { DialogBox } from '@/components/DialogBox';
 
-type SearchDialogProps =  {
-    pokemonList: {name: string, value: string},
+type SearchDialogProps = {
+    pokemonList: { value: string; label: string }[];
     open: boolean;
     initialValue: string;
     onClose: () => void;
     onChange: (value: string) => void;
-}
+};
 
 export function SearchDialog({
-    pokemonList: pokedex,
+    pokemonList,
     open,
     onClose,
     onChange,
@@ -65,7 +65,7 @@ export function SearchDialog({
                 <Combobox.Options className="flex max-h-96 w-full flex-col gap-1">
                     {filteredResults.map(({ value, label }) => (
                         <Combobox.Option
-                            className="rounded-xl px-3 py-1 transition-all hover:cursor-pointer hover:bg-primary-500 hover:text-light"
+                            className="rounded-xl px-3 py-1 capitalize transition-all hover:cursor-pointer hover:bg-primary-500 hover:text-light"
                             key={value}
                             value={value}>
                             {label}

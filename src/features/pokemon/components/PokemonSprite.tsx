@@ -19,7 +19,7 @@ export function PokemonSprite({ pokemon }: { pokemon: string }) {
                     src={sprite}
                     alt={`Sprite for ${pokemon}`}
                     fill
-                    style={{ imageRendering: 'crisp-edges' }}
+                    style={{ imageRendering: 'pixelated' }}
                     quality="100"
                 />
             )}

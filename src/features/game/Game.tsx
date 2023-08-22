@@ -15,7 +15,12 @@ import { useGameReducer } from './reducers';
 import { PokemonClient } from 'pokenode-ts';
 import { fetchPokemonConstraints } from '../pokemon/api';
 import { GameEndDialog } from './components';
-
+import pokemonJson from 'assets/pokemonNames.json';
+import { capitalize } from '@/utils/text';
+const pokemonNames = pokemonJson.map(([name, label]) => ({
+    value: name,
+    label: label.replaceAll('-', ' '),
+}));
 const testConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'legendary', value: true },
@@ -182,6 +187,7 @@ export function Game() {
                 onClose={() => setOpen(false)}
                 initialValue=""
                 onChange={onSearchChange}
+                pokemonList={pokemonNames}
             />
             {gamefinished && <GameEndDialog gameState={gameState} />}
         </div>

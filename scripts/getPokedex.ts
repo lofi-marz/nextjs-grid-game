@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import fs from 'fs';
 import { MainClient, PokemonClient } from 'pokenode-ts';
 type PokemonResponse = {
@@ -23,13 +23,33 @@ function fetchAllPokemon(limit = 10000) {
     return api.listPokemons(0, limit).then((res) => res.results);
 }
 
-function fetchAllSpecies(limit = 10) {
-    return api.listPokemonShapes(0, limit).then((res) => res.results);
+function fetchAllSpecies(limit = 10000) {
+    return api.listPokemonSpecies(0, limit).then((res) => res.results);
 }
 
 (async () => {
-    const urls = await fetchAllPokemon();
-    const pokedex = urls.map((p) => p.name);
+    const species = await fetchAllSpecies().then((ss) => ss.map((s) => s.name));
+
+    const allPokemon = [];
+    for (const name of species) {
+        console.log(name);
+        const p = await api.getPokemonSpeciesByName(name);
+        console.log([name, p.name]);
+        allPokemon.push([name, p.name]);
+    }
+    fs.writeFileSync('./pokemonSpeciesNames.json', JSON.stringify(allPokemon));
+    /*const promises = species.map(async (name) => {
+        const species = await api.getPokemonByName(name);
+
+        return [name, species.name];
+    });
+    const allPokemon = await Promise.all(promises);*/
+
+    /*for (const name of species) {
+        const matchingPokemon = await api
+            .getPokemonByName(name)
+            .catch(() => console.log(name));
+    }*/
     /*const pokedex = [];
     for (const { name, url } of urls) {
         console.log('Fetching:', name, url);
@@ -43,5 +63,5 @@ function fetchAllSpecies(limit = 10) {
         pokedex.push(pokemon);
     }*/
 
-    fs.writeFileSync('pokedex.json', JSON.stringify(pokedex));
+    //fs.writeFileSync('pokedex.json', JSON.stringify(pokedex));
 })();
