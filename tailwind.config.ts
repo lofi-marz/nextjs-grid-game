@@ -1,11 +1,11 @@
 import type { Config } from 'tailwindcss';
 
-import colors from 'tailwindcss/colors';
+import defaultColors from 'tailwindcss/colors';
 
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
-import plugin from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 const t: Config = {
     content: [
@@ -22,12 +22,13 @@ const t: Config = {
                 body: ['var(--font-body)', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: colors.red,
-
-                secondary: colors.red,
-                grey: colors.stone,
-                light: colors.stone[50],
-                dark: colors.stone[950],
+                primary: defaultColors.red,
+                secondary: defaultColors.red,
+                grey: defaultColors.stone,
+                light: defaultColors.stone[50],
+                dark: defaultColors.stone[950],
+                theme: 'var(--theme)',
+                'theme-invert': 'var(--theme-invert)',
             },
         },
     },

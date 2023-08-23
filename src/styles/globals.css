@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --theme: theme(colors.light);
+        --theme-invert: theme(colors.dark);
+    }
+
+    .dark {
+        --theme: theme(colors.dark);
+        --theme-invert: theme(colors.light);
+    }
+}
+
 @layer utilities {
     .bg-pattern-dark {
         background-color: theme(colors.dark);

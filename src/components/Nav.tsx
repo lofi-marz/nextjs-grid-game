@@ -1,13 +1,17 @@
 import { DialogBox, useDialogControls } from './DialogBox';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Nav() {
     const [open, onOpen, onClose] = useDialogControls();
     return (
-        <nav className="flex h-20 w-full flex-row items-center justify-between px-12">
+        <nav className="flex h-20 w-full flex-row items-center justify-between bg-theme px-12 text-theme-invert">
             <div className="font-bold">Pokedoku</div>
-            <button onClick={onOpen}>How to Play</button>
+            <div className="flex flex-row gap-8">
+                <button onClick={onOpen}>How to Play</button>
+                <ThemeToggle />
+            </div>
             <DialogBox open={open} onClose={onClose} title="How to Play">
-                <div className="prose prose-sm prose-gray dark:prose-invert">
+                <div className="prose prose-sm prose-invert prose-gray">
                     <ul>
                         <li>
                             Data courtesy of{' '}
