@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { SearchDialog } from '@/features/pokemon/components/SearchDialog';
 import { PokemonConstraint } from '@/features/pokemon/types';
@@ -10,7 +10,6 @@ import { PokemonClient } from 'pokenode-ts';
 import { fetchPokemonConstraints } from '../pokemon/api';
 import { GameEndDialog } from './components';
 import pokemonJson from 'features/pokemon/assets/pokemonNames.json';
-import { capitalize } from '@/utils/text';
 import { InnerGrid } from './components/InnerGrid';
 import { parsePokemonName, regionToAdjective } from '../pokemon/utils';
 const pokemonNames = pokemonJson.map(([kebabName, _]) => {
@@ -29,6 +28,15 @@ const testConstraints: PokemonConstraint[] = [
     { type: 'gen', value: 1 },
 ];
 
+const genConstraints: PokemonConstraint[] = [
+    { type: 'gen', value: 4 },
+    { type: 'gen', value: 5 },
+    { type: 'gen', value: 6 },
+    { type: 'gen', value: 7 },
+    { type: 'gen', value: 8 },
+    { type: 'gen', value: 9 },
+];
+
 const sameConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'type', value: 'water' },
@@ -38,7 +46,7 @@ const sameConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
 ];
 
-const constraints = testConstraints;
+const constraints = genConstraints;
 
 const constraintClasses = [
     'col-start-1 row-start-4',

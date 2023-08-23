@@ -11,7 +11,7 @@ export function Nav() {
                 <ThemeToggle />
             </div>
             <DialogBox open={open} onClose={onClose} title="How to Play">
-                <div className="prose prose-sm prose-invert prose-gray">
+                <div className="prose prose-sm prose-invert list-outside text-light decoration-light">
                     <ul>
                         <li>
                             Data courtesy of{' '}
