@@ -1,3 +1,4 @@
+import { Pokemon, Stat } from 'pokenode-ts';
 import pokedexJson from './assets/pokedex.json';
 import { POKEMON_REGIONS } from './utils';
 
@@ -42,11 +43,8 @@ export type SinglePokemonResponse = {
     types: { slot: number; type: { name: string } }[];
 };
 
-type Pokemon = {
-    name: string;
-    sprite: string;
-    types: { slot: number; type: { name: string } }[];
-};
+type StatName = Stat['name'];
+export type PokemonStatName = Exclude<StatName, 'accuracy' | 'evasion'>;
 
 type Constraint<T extends string, U> = { type: T; value: U };
 
@@ -58,8 +56,11 @@ export type LegendaryConstraint = Constraint<'legendary', boolean>;
 
 export type MonotypeConstraint = Constraint<'monotype', boolean>;
 
+export type MaxStatConstraint = Constraint<'max-stat', PokemonStatName>;
+
 export type PokemonConstraint =
     | TypeConstraint
     | GenConstraint
     | LegendaryConstraint
-    | MonotypeConstraint;
+    | MonotypeConstraint
+    | MaxStatConstraint;

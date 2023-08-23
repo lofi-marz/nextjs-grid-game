@@ -1,8 +1,6 @@
 import pokedexJson from '../assets/pokedex.json';
 import { PokemonClient, Pokemon, PokemonSpecies } from 'pokenode-ts';
-import { PokemonConstraint, PokemonGen } from '../types';
-
-
+import { PokemonConstraint, PokemonGen, PokemonStatName } from '../types';
 
 async function getPokemon(pokemon: string) {
     const p = new PokemonClient();
@@ -45,6 +43,10 @@ export function isLegendary(pokemonSpecies: PokemonSpecies) {
     return pokemonSpecies.is_legendary || pokemonSpecies.is_mythical;
 }
 
+export function isMaxStat(pokemon: Pokemon, stat: PokemonStatName) {
+    return true;
+}
+
 /*const constraintMap = {
     type: isType,
     gen: isGen,
@@ -58,7 +60,7 @@ export function checkPokemonConstraint(
     { type, value }: PokemonConstraint,
     pokemon: Pokemon,
     pokemonSpecies: PokemonSpecies //Not sure if it's worth figuring out which one I need vs just doing two API calls
-) {
+): boolean {
     switch (type) {
         case 'gen':
             return isGen(pokemonSpecies, value);
@@ -68,8 +70,7 @@ export function checkPokemonConstraint(
             return isMonotype(pokemon);
         case 'type':
             return isType(pokemon, value);
-        default:
-            return false;
+        case 'max-stat':
+            return isMaxStat(pokemon, value);
     }
 }
-

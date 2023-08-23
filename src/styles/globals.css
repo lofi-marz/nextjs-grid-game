@@ -51,4 +51,20 @@
             theme(colors.dark/10)
         );
     }
+
+    .bg-radial-fade-out {
+        background: radial-gradient(
+            farthest-side,
+            theme(colors.light/10) 50%,
+            #ffffff00
+        );
+    }
+
+    .bg-radial-fade-out-dark {
+        background: radial-gradient(
+            farthest-side,
+            theme(colors.dark/10) 50%,
+            #ffffff00
+        );
+    }
 }

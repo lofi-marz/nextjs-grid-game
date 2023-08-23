@@ -6,7 +6,7 @@ export function PokemonGenIcon({ gen }: { gen: PokemonGen }) {
     return (
         <div
             title={`Gen ${genMap[gen - 1]} Icon`}
-            className="relative flex h-1/2 w-1/2 items-center justify-center rounded-xl bg-red-500 text-5xl font-bold text-theme"
+            className="relative flex h-1/2 w-1/2 items-center justify-center rounded-full bg-red-500 text-5xl font-bold "
             style={{ filter: `hue-rotate(${hueDeg}deg)` }}>
             {genMap[gen - 1]}
         </div>

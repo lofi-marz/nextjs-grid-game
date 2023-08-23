@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { SearchDialog } from '@/features/pokemon/components/SearchDialog';
 import { PokemonConstraint } from '@/features/pokemon/types';
@@ -22,7 +22,7 @@ const pokemonNames = pokemonJson.map(([kebabName, _]) => {
 const testConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'legendary', value: true },
-    { type: 'type', value: 'grass' },
+    { type: 'legendary', value: false },
     { type: 'type', value: 'poison' },
     { type: 'monotype', value: true },
     { type: 'gen', value: 1 },
@@ -46,7 +46,7 @@ const sameConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
 ];
 
-const constraints = genConstraints;
+const constraints = testConstraints;
 
 const constraintClasses = [
     'col-start-1 row-start-4',
@@ -68,7 +68,7 @@ export function Game() {
     useEffect(() => {
         updateCellState();
     }, []);
-    const updateCellState = () => {
+    const updateCellState = useCallback(() => {
         for (let y = 0; y < 3; y++) {
             for (let x = 0; x < 3; x++) {
                 const cs = getConstraintsByIndex(constraints, x, y);
@@ -89,7 +89,7 @@ export function Game() {
                 );
             }
         }
-    };
+    }, [dispatch, grid, p]);
     const onSearchChange = (v: string) => {
         if (!currentCell) return;
         const [x, y] = currentCell;
@@ -120,12 +120,12 @@ export function Game() {
     return (
         <div className="flex h-full w-full flex-row flex-wrap content-center items-center justify-center gap-8">
             <div className="flex aspect-square h-full max-h-[100vw] items-center justify-center p-6 pb-12 pt-0">
-                <div className="grid aspect-square h-full w-full grid-cols-4 grid-rows-4 items-center justify-center gap-1 overflow-clip rounded-xl">
+                <div className="grid aspect-square h-full w-full grid-cols-4 grid-rows-4 items-center justify-center gap-1 overflow-clip rounded-xl text-theme">
                     {constraints.map((c, i) => (
                         <div
                             key={`icon-${c.type}-${c.value}-${i}`}
                             className={clsx(
-                                'relative flex h-full w-full items-center justify-center',
+                                'bg-radial-fade-out dark:bg-radial-fade-out-dark relative flex h-full w-full items-center justify-center',
                                 constraintClasses[i]
                             )}>
                             <ConstraintIcon constraint={c} />
