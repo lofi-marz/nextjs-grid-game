@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .bg-pattern-dark {
+        background-color: theme(colors.dark);
+        opacity: 0.8;
+
+        background-image: radial-gradient(
+            theme(colors.grey.50) 0.5px,
+            theme(colors.dark) 0.5px
+        );
+        background-size: 10px 10px;
+    }
+
+    .bg-pattern {
+        background-color: theme(colors.light);
+        opacity: 0.8;
+        background-image: radial-gradient(
+            theme(colors.gray.800) 0.5px,
+            theme(colors.light) 1px
+        );
+        background-size: 10px 10px;
+    }
+
+    .bg-radial-fade {
+        background: radial-gradient(
+            farthest-side,
+            #ffffff00,
+            theme(colors.light/10)
+        );
+    }
+
+    .bg-radial-fade-dark {
+        background: radial-gradient(
+            farthest-side,
+            #ffffff00,
+            theme(colors.dark/10)
+        );
+    }
+}

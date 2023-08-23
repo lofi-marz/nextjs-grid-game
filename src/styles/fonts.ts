@@ -1,6 +1,6 @@
-import { Poppins, Inter, Rubik } from 'next/font/google';
+import { Poppins, Inter, Rubik, Fredoka } from 'next/font/google';
 
-export const sans = Rubik({
+export const sans = Fredoka({
     subsets: ['latin'],
     weight: 'variable',
     variable: '--font-sans',

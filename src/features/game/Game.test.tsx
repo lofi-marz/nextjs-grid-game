@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import { InnerGrid } from './Game';
+import { InnerGrid } from './components/InnerGrid';
 describe('Game', () => {
     it('Clicking a cell opens the dialog menu', async () => {
         // eslint-disable-next-line testing-library/render-result-naming-convention

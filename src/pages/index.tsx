@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { sans } from '../styles/fonts';
 import { Game } from 'features/game';
 import { Nav } from '@/components/Nav';
+import path from 'path';
 export default function Home() {
     return (
         <div
@@ -14,10 +15,18 @@ export default function Home() {
                 <title>Hello World!</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="flex h-screen w-full flex-col items-center justify-center ">
-                <Nav />
-                <Game />
+            <div className="bg-pattern dark:bg-pattern-dark flex h-screen w-full flex-col items-center justify-center ">
+                <div className="bg-radial-fade dark:bg-radial-fade-dark z-10 flex h-screen w-full flex-col items-center justify-center">
+                    <Nav />
+                    <Game />
+                </div>
             </div>
         </div>
     );
+}
+
+export function getStaticProps() {
+    const gameConfigPath = path.join(process.cwd());
+    console.log(gameConfigPath);
+    return { props: {} };
 }

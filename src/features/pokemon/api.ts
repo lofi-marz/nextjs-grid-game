@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as path from 'path';
 import { PokemonConstraint, SinglePokemonResponse } from './types';
 import { Pokemon, PokemonClient } from 'pokenode-ts';
-import { checkPokemonConstraint } from './utils';
+import { checkPokemonConstraint } from './utils/constraintUtils';
 export function getPokemon(idOrName: string) {
     return axios
         .get<SinglePokemonResponse>(

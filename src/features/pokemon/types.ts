@@ -1,4 +1,12 @@
 import pokedexJson from './assets/pokedex.json';
+import { POKEMON_REGIONS } from './utils';
+
+export type PokemonRegion = (typeof POKEMON_REGIONS)[number];
+export type PokemonNameInfo = {
+    name: string;
+    region?: string;
+    variant?: string;
+};
 
 export type PokemonType =
     | 'normal'

@@ -5,6 +5,7 @@ import colors from 'tailwindcss/colors';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
+import plugin from 'tailwindcss';
 
 const t: Config = {
     content: [
@@ -21,11 +22,12 @@ const t: Config = {
                 body: ['var(--font-body)', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: colors.emerald,
+                primary: colors.red,
+
                 secondary: colors.red,
-                grey: colors.slate,
-                light: colors.slate[50],
-                dark: colors.slate[950],
+                grey: colors.stone,
+                light: colors.stone[50],
+                dark: colors.stone[950],
             },
         },
     },
@@ -34,4 +36,4 @@ const t: Config = {
 
 export default t;
 
-export const themeColors = t.theme?.extend?.colors!;
+export const themeColors = { ...t.theme?.extend?.colors! };

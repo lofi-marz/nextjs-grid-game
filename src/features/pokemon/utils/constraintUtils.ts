@@ -1,6 +1,9 @@
-import pokedexJson from './assets/pokedex.json';
+import pokedexJson from '../assets/pokedex.json';
 import { PokemonClient, Pokemon, PokemonSpecies } from 'pokenode-ts';
-import { PokemonConstraint, PokemonGen } from './types';
+import { PokemonConstraint, PokemonGen } from '../types';
+
+
+
 async function getPokemon(pokemon: string) {
     const p = new PokemonClient();
     return p.getPokemonByName(pokemon);
@@ -69,3 +72,4 @@ export function checkPokemonConstraint(
             return false;
     }
 }
+

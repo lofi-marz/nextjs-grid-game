@@ -1,26 +1,25 @@
 import clsx from 'clsx';
-import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { SearchDialog } from '@/features/pokemon/components/SearchDialog';
-import { PokemonSprite } from '@/features/pokemon/components/PokemonSprite';
 import { PokemonConstraint } from '@/features/pokemon/types';
 import { ConstraintIcon } from '@/features/pokemon/components';
-import { CellState } from './types';
-import {
-    cellStateColourClasses,
-    checkWinState,
-    getConstraintsByIndex,
-} from './utils';
+import { checkWinState, getConstraintsByIndex } from './utils';
 import { useGameReducer } from './reducers';
 import { PokemonClient } from 'pokenode-ts';
 import { fetchPokemonConstraints } from '../pokemon/api';
 import { GameEndDialog } from './components';
-import pokemonJson from 'assets/pokemonNames.json';
+import pokemonJson from 'features/pokemon/assets/pokemonNames.json';
 import { capitalize } from '@/utils/text';
-const pokemonNames = pokemonJson.map(([name, label]) => ({
-    value: name,
-    label: label.replaceAll('-', ' '),
-}));
+import { InnerGrid } from './components/InnerGrid';
+import { parsePokemonName, regionToAdjective } from '../pokemon/utils';
+const pokemonNames = pokemonJson.map(([kebabName, _]) => {
+    const { name, region, variant } = parsePokemonName(kebabName);
+    let label = name;
+    if (region) label = `${regionToAdjective(region)} ${name}`;
+    if (variant) label += ` (${variant})`;
+    return { value: kebabName, label };
+});
 const testConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'legendary', value: true },
@@ -32,62 +31,14 @@ const testConstraints: PokemonConstraint[] = [
 
 const sameConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
-    { type: 'type', value: 'fire' },
+    { type: 'type', value: 'water' },
     { type: 'type', value: 'fire' },
     { type: 'type', value: 'fire' },
     { type: 'type', value: 'fire' },
     { type: 'type', value: 'fire' },
 ];
 
-function GridCell({
-    children,
-    onClick,
-    state,
-}: PropsWithChildren<{ onClick: () => void; state: CellState }>) {
-    return (
-        <button
-            className={clsx(
-                'flex h-full w-full items-center justify-center transition-all hover:brightness-50',
-                cellStateColourClasses[state ?? 'empty']
-            )}
-            data-testid="grid-button"
-            onClick={onClick}>
-            {children}
-        </button>
-    );
-}
-
-export function InnerGrid({
-    cells,
-    onClick,
-    cellStates,
-}: {
-    cells: (string | null)[][];
-    cellStates: CellState[][];
-    onClick: (x: number, y: number) => void;
-}) {
-    return (
-        <div
-            className={clsx(
-                'relative col-start-2 col-end-5 row-start-2 row-end-5 grid aspect-square h-full w-full grid-cols-3 grid-rows-3 items-center justify-center gap-1 overflow-clip rounded-xl'
-            )}>
-            {cells.map((row, rowI) => (
-                <React.Fragment key={`row-${rowI}`}>
-                    {row.map((cell, cellI) => (
-                        <GridCell
-                            key={`cell-${rowI}-${cellI}`}
-                            onClick={() => onClick(cellI, rowI)}
-                            state={cellStates[rowI][cellI]}>
-                            {cell && <PokemonSprite pokemon={cell} />}
-                        </GridCell>
-                    ))}
-                </React.Fragment>
-            ))}
-        </div>
-    );
-}
-
-const constraints = sameConstraints;
+const constraints = testConstraints;
 
 const constraintClasses = [
     'col-start-1 row-start-4',
@@ -105,6 +56,7 @@ export function Game() {
     const [open, setOpen] = useState(false);
 
     const [currentCell, setCurrentCell] = useState<[number, number] | null>();
+
     useEffect(() => {
         updateCellState();
     }, []);
@@ -150,9 +102,9 @@ export function Game() {
         );
     };
     const gamefinished = checkWinState({ grid, stateGrid, guessCount });
-    console.log(gamefinished);
 
     const onClick = (x: number, y: number) => {
+        if (gamefinished) return;
         setCurrentCell([x, y]);
         setOpen(true);
     };
@@ -185,7 +137,11 @@ export function Game() {
             <SearchDialog
                 open={open}
                 onClose={() => setOpen(false)}
-                initialValue=""
+                initialValue={
+                    currentCell
+                        ? grid[currentCell[0]][currentCell[1]] ?? ''
+                        : ''
+                }
                 onChange={onSearchChange}
                 pokemonList={pokemonNames}
             />

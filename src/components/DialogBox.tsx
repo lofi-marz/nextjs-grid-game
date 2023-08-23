@@ -4,6 +4,7 @@ import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import { WithClassNameProps } from 'types';
 import clsx from 'clsx';
+import { cn } from 'lib/utils';
 export function useDialogControls(startOpen = false) {
     const [open, setOpen] = useState(startOpen);
     return [open, () => setOpen(true), () => setOpen(false)] as const;
@@ -48,9 +49,9 @@ export function DialogBox({
                         className="fixed inset-0 bg-black/50"
                         aria-hidden="true"
                     />
-                    <div className="fixed inset-0 flex h-full w-full items-start justify-center p-12 pt-48 decoration-primary-500">
+                    <motion.div className="fixed inset-0 flex h-full w-full items-start justify-center p-12 pt-48 decoration-primary-500">
                         <Dialog.Panel
-                            className="relative flex w-full max-w-sm flex-col items-center justify-center gap-6 rounded-xl bg-light p-6 font-sans text-base drop-shadow dark:bg-dark"
+                            className="relative flex w-full max-w-sm flex-col items-center justify-center gap-6 overflow-clip rounded-xl bg-primary-500 p-6 font-sans text-base text-light drop-shadow"
                             as={motion.div}
                             variants={dialogBoxVariants}>
                             <button
@@ -59,15 +60,21 @@ export function DialogBox({
                                 <FaTimes />
                             </button>
                             {title && (
-                                <Dialog.Title className="text-xl font-bold">
+                                <Dialog.Title
+                                    className="text-xl font-bold lg:text-3xl"
+                                    as={motion.h2}>
                                     {title}
                                 </Dialog.Title>
                             )}
-                            <div className={clsx('w-full', className)}>
+                            <motion.div
+                                className={cn(
+                                    'flex w-full flex-col gap-4',
+                                    className
+                                )}>
                                 {children}
-                            </div>
+                            </motion.div>
                         </Dialog.Panel>
-                    </div>
+                    </motion.div>
                 </Dialog>
             )}
         </AnimatePresence>

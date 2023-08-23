@@ -55,7 +55,7 @@ const emptyGameState: GameState = {
 };
 
 const testGameState: GameState = {
-    grid: allCharmander,
+    grid: emptyGameState.grid,
     stateGrid: [
         [null, null, null],
         [null, null, null],
@@ -63,8 +63,18 @@ const testGameState: GameState = {
     ],
     guessCount: 9,
 };
+
+const aboutToLose: GameState = {
+    grid: emptyGameState.grid,
+    stateGrid: [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+    ],
+    guessCount: 1,
+};
 export function useGameReducer() {
-    return useReducer(gameReducer, testGameState);
+    return useReducer(gameReducer, aboutToLose);
 }
 
 function setCell<T>(grid: T[][], x: number, y: number, item: T) {

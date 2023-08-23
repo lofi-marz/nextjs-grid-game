@@ -5,15 +5,14 @@ import {
     LegendaryConstraint,
     MonotypeConstraint,
     TypeConstraint,
-} from './types';
+} from '../types';
 import {
     isType,
     isMonotype,
     isGen,
     isLegendary,
-    checkPokemonConstraint,
-    pokedex,
-} from './utils';
+    checkPokemonConstraint
+} from './constraintUtils';
 //TODO: Refactor these
 const p = new PokemonClient();
 
@@ -81,7 +80,7 @@ describe('Pokemon Constraint Checker', () => {
             type: 'monotype',
             value: true,
         };
-        const result = await checkPokemonConstraint(
+        const result = checkPokemonConstraint(
             constraint,
             pokemon,
             pokemonSpecies

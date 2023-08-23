@@ -1,5 +1,5 @@
 import { PokemonClient } from 'pokenode-ts';
-import { pokedex } from '../utils';
+import { pokedex } from '../utils/constraintUtils';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
 export function PokemonSprite({ pokemon }: { pokemon: string }) {
@@ -15,7 +15,7 @@ export function PokemonSprite({ pokemon }: { pokemon: string }) {
         <div className="relative h-full w-full">
             {sprite && (
                 <Image
-                    className="object-cover"
+                    className="object-cover drop-shadow-2xl"
                     src={sprite}
                     alt={`Sprite for ${pokemon}`}
                     fill
