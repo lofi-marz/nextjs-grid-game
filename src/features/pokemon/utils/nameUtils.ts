@@ -14,7 +14,7 @@ const POKEMON_NAMES_WITH_DASHES = [
     'chi-yu',
 ];
 
-function isUselessVariant(pokemon: string) {
+export function isUselessVariant(pokemon: string) {
     const uselessVariantsregex =
         /\b((pikachu|greninja|minior|eevee|squawkabilly|basculegion)-.*)|(.*(gmax|totem))\b/g;
     return uselessVariantsregex.test(pokemon);

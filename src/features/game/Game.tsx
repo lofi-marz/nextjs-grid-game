@@ -11,14 +11,20 @@ import { fetchPokemonConstraints } from '../pokemon/api';
 import { GameEndDialog } from './components';
 import pokemonJson from 'features/pokemon/assets/pokemonNames.json';
 import { InnerGrid } from './components/InnerGrid';
-import { parsePokemonName, regionToAdjective } from '../pokemon/utils';
-const pokemonNames = pokemonJson.map(([kebabName, _]) => {
-    const { name, region, variant } = parsePokemonName(kebabName);
-    let label = name;
-    if (region) label = `${regionToAdjective(region)} ${name}`;
-    if (variant) label += ` (${variant})`;
-    return { value: kebabName, label };
-});
+import {
+    isUselessVariant,
+    parsePokemonName,
+    regionToAdjective,
+} from '../pokemon/utils';
+const pokemonNames = pokemonJson
+    .filter(([name]) => !isUselessVariant(name))
+    .map(([kebabName, _]) => {
+        const { name, region, variant } = parsePokemonName(kebabName);
+        let label = name;
+        if (region) label = `${regionToAdjective(region)} ${name}`;
+        if (variant) label += ` (${variant})`;
+        return { value: kebabName, label };
+    });
 const testConstraints: PokemonConstraint[] = [
     { type: 'type', value: 'fire' },
     { type: 'legendary', value: true },

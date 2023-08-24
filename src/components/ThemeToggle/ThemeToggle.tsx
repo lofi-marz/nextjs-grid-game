@@ -16,7 +16,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         <motion.button
             layout
             className={clsx(
-                'flex aspect-[2/1] h-6 flex-row items-center rounded-xl bg-theme-invert text-theme transition-all duration-500 ease-out',
+                'flex aspect-[2/1] h-7 flex-row items-center rounded-xl bg-theme-invert text-theme transition-all duration-500 ease-out',
                 className,
                 theme === 'dark' ? 'justify-end' : 'justify-start'
             )}
