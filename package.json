@@ -8,7 +8,7 @@
         "test:ci": "vitest --ci"
     },
     "dependencies": {
-        "@headlessui/react": "^1.7.16",
+        "@headlessui/react": "^1.7.17",
         "axios": "^1.4.0",
         "axios-cache-interceptor": "^1.2.0",
         "clsx": "^1.2.1",
